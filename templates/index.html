@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>ACTi Auto Focus Console</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='app.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='diagnostics.css') }}">
+</head>
+<body>
+  <main class="shell">
+    <header>
+      <div><span class="kicker">ACTi / ONVIF</span><h1>視野定位台</h1></div>
+      <div id="connectionBadge" class="badge"><i></i><span>尚未連線</span></div>
+    </header>
+    <section class="layout">
+      <aside class="panel">
+        <h2>相機連線</h2>
+        <label>IP 位址<input id="ip" placeholder="192.0.2.10" autocomplete="off"></label>
+        <div class="split"><label>ONVIF Port<input id="port" type="number" value="80"></label><label>更新頻率<input value="1 FPS" disabled></label></div>
+        <label>使用者名稱<input id="username" value="admin" autocomplete="username"></label>
+        <label>密碼<input id="password" type="password" autocomplete="current-password"></label>
+        <button id="connectBtn" class="primary">連接 Speed Dome</button>
+        <div class="rule"></div>
+        <h2>定位狀態</h2>
+        <div class="timer"><span id="timerValue">--</span><small>恢復倒數 / 秒</small></div>
+        <p id="statusText" class="status">輸入相機資料後開始連線。</p>
+        <button id="restoreBtn" class="secondary" disabled>立即恢復原位</button>
+        <p class="note">拖曳框選後，相機會將 bbox 下邊中心點移至畫面中央，再依框的大小計算合適倍率。60 秒後自動恢復。</p>
+        <details class="diagnostics" open><summary>定位診斷</summary><pre id="debugLog">尚無定位紀錄</pre></details>
+      </aside>
+      <section class="viewer">
+        <div class="viewer-head"><div><b>快照視窗</b><span id="resolution">等待影像</span></div><span class="fps">1 FRAME / SEC</span></div>
+        <div id="stage" class="stage">
+          <img id="snapshot" alt="ONVIF 相機快照" draggable="false">
+          <canvas id="overlay"></canvas>
+          <div id="empty" class="empty"><div class="reticle"></div><strong>尚未取得相機畫面</strong><span>連線後，在影像上拖曳框選目標</span></div>
+        </div>
+        <footer><span>拖曳：框選目標</span><span>ESC：清除選取</span></footer>
+      </section>
+    </section>
+  </main>
+  <script src="{{ url_for('static', filename='app.js') }}"></script>
+</body>
+</html>
